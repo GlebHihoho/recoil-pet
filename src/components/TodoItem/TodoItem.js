@@ -1,18 +1,36 @@
-import { useTodoItem } from './useTodoItem';
+import { useTodoList } from '../../useHooks/useTodoList';
 
 const TodoItem = (props) => {
   const { todo } = props;
-  const { id, text, isComplete } = todo;
-  const { inputValue, handleChangeInput, handleAddItem } = useTodoItem();
+  const { id, isComplete } = todo;
+
+  const { removeTodoItem, editTodoItemText, editTodoItemComplete } = useTodoList();
+
+  const handleChangeInput = ({ target: { value } }) => {
+    editTodoItemText(id, value);
+  };
+
+  const handleRemoveItem = () => {
+    removeTodoItem(id);
+  };
+
+  const handleChangeComplete = () => {
+    editTodoItemComplete(id, !isComplete);
+  };
 
   return (
     <>
       <input
         type="text"
-        value={text}
+        value={todo.text}
         onChange={handleChangeInput}
       />
-      <button onClick={handleAddItem}>X</button>
+      <input
+        type="checkbox"
+        checked={todo.isComplete}
+        onChange={handleChangeComplete}
+      />
+      <button onClick={handleRemoveItem}>X</button>
     </>
   );
 };

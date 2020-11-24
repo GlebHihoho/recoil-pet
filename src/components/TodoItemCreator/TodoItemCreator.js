@@ -1,21 +1,29 @@
-import { useTodoItemCreator } from './useTodoItemCreator';
+import { useState } from 'react';
+
+import { useTodoList } from '../../useHooks/useTodoList';
 
 const TodoItemCreator = () => {
-  const { 
-    inputValue,
-    handleChangeInput,
-    handleAddItem,
-  } = useTodoItemCreator();
+  const { addTodoItem } = useTodoList();
+  const [inputValue, setInputValue] = useState('');
+
+  const handleChangeInput = ({ target: { value } }) => {
+    setInputValue(value);
+  };
+
+  const handleAddItem = () => {
+    addTodoItem(inputValue);
+    setInputValue('');
+  };
 
   return (
-    <>
+    <div>
       <input
         type="text"
         value={inputValue}
         onChange={handleChangeInput}
       />
       <button onClick={handleAddItem}>Add</button>
-    </>
+    </div>
   );
 };
 
